@@ -14,7 +14,7 @@ class FlockClient(object):
         print data
         r = self._post_request(data, "chat.sendMessage")
         return r.text
-
+    
 #----------------------------Internal functions---------------------------------
     def _post_request(self, data, endpoint):
         data['token'] = self.token
