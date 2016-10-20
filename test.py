@@ -89,6 +89,11 @@ b2 = Button(name = "Ron Weasley", id="ron", action=OpenBrowserAction(url="https:
 b3 = Button(name = "Hermione Granger", id="hermione", action=SendToAppAction())
 attachment = Attachment(title="Test buttons", buttons=[b1,b2,b3])
 button_message = Message(to=bala_guid, text="Who is your favourite Harry Potter character?", attachments = [attachment])
-res = flock_client.send_chat(button_message)
+#res = flock_client.send_chat(button_message)
 print(res)
 
+# Now, just for fun, let us change colours
+attachment = Attachment(title="Test colour", color="#FF0000", description="It is red!")
+color_message = Message(to=bala_guid, attachments=[attachment])
+res = flock_client.send_chat(color_message)
+print(res)
