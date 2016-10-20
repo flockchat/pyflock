@@ -7,6 +7,9 @@ def to_camel_case(snake_str):
 def get_args(kw):
     return dict((k,v) for k,v in kw.iteritems() if k <> "self")
 
+def get_kwargs(**kwargs):
+    return dict((k,v) for k,v in kwargs.iteritems() if k <> "self")
+
 class Payload(object):
     def __init__(self, **kwargs):
         for kw,arg in kwargs.iteritems():
@@ -82,3 +85,24 @@ class ImageView(View):
 class Download(Payload):
     def __init__(self, src, mime = None, filename = None, size = None):
         super(Download, self).__init__(**get_args(locals()))
+
+class Button(Payload):
+    def __init__(self, name, action, icon = None, id = None):
+        super(Button, self).__init__(**get_args(locals()))
+
+class ButtonAction(Payload):
+    def __init__(self, type, **kwargs):
+        super(ButtonAction, self).__init__(**get_kwargs(type=type, **kwargs))
+
+class OpenWidgetAction(ButtonAction):
+    def __init__(self, url, desktop_type, mobile_type = "modal"):
+        super(OpenWidgetAction, self).__init__(type="openWidget", **get_args(locals()))
+
+class OpenBrowserAction(ButtonAction):
+    def __init__(self, url, desktop_type, mobile_type = "modal"):
+        super(OpenBrowserAction, self).__init__(type="openBrowser", **get_args(locals()))
+
+class SendToAppAction(ButtonAction):
+    def __init__(self):
+        super(SendToAppAction, self).__init__(type="sendToAppService", **get_args(locals()))
+

@@ -1,7 +1,9 @@
-from FlockClient import FlockClient
-from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download
-
 # DO NOT PANIC
+
+from FlockClient import FlockClient
+# You probably want to copy this entire line
+from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download, Button, OpenWidgetAction, OpenBrowserAction, SendToAppAction
+
 
 #------ This is pyflock demo. The app id is of a pyflock bot for testing
 #Create a flock client. Needs token and app id for this. You can get the token id and app id when you register. This is for a bot.
@@ -78,5 +80,15 @@ views.add_flockml("<flockml>Download the <i>matrix</i></flockml>")
 # NOTE: downloads is always a list
 attachment = Attachment(title="Test files", downloads=[d], views=views)
 files_message = Message(to=bala_guid, attachments = [attachment])
-res = flock_client.send_chat(files_message)
+#res = flock_client.send_chat(files_message)
 print(res)
+
+# Button with openwidget, open url & send to app service
+b1 = Button(name = "Harry Potter", id="harry", action=OpenWidgetAction(url="https://goo.gl/aygRGf", desktop_type="sidebar"))
+b2 = Button(name = "Ron Weasley", id="ron", action=OpenBrowserAction(url="https://goo.gl/gDpMVn", desktop_type="sidebar"))
+b3 = Button(name = "Hermione Granger", id="hermione", action=SendToAppAction())
+attachment = Attachment(title="Test buttons", buttons=[b1,b2,b3])
+button_message = Message(to=bala_guid, text="Who is your favourite Harry Potter character?", attachments = [attachment])
+res = flock_client.send_chat(button_message)
+print(res)
+
