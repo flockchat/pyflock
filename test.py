@@ -1,5 +1,5 @@
 from FlockClient import FlockClient
-from Message import Message, SendAs, Attachment, Views, WidgetView
+from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView
 
 # DO NOT PANIC
 
@@ -33,5 +33,16 @@ views.add_widget(widget)
 attachment = Attachment(title="Test widget", description="Replace src with your own page", views=views)
 # NOTE: attachments is an array of attachment
 widget_message = Message(to=bala_guid, attachments = [attachment])
-res = flock_client.send_chat(widget_message)
+#res = flock_client.send_chat(widget_message)
+print(res)
+
+# Send a HTML view
+views = Views()
+html = HtmlView(inline="It <b>Works</b>",height=50)
+views.add_html(html)
+
+attachment = Attachment(title="Test html", description="Replace inline with your own html", views=views)
+# NOTE: attachments is an array of attachment
+html_message = Message(to=bala_guid, attachments = [attachment])
+res = flock_client.send_chat(html_message)
 print(res)

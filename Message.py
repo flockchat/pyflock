@@ -46,6 +46,9 @@ class Views(Payload):
     def add_widget(self, w):
         self.widget = w
 
+    def add_html(self, h):
+        self.html = h
+
 class View(Payload):
     def __init__(self, **kwargs):
         super(View, self).__init__(**kwargs)
@@ -53,3 +56,7 @@ class View(Payload):
 class WidgetView(View):
     def __init__(self, src, height, width = None):
         super(WidgetView, self).__init__(**get_args(locals()))
+
+class HtmlView(View):
+    def __init__(self, inline, height, width = None):
+        super(HtmlView, self).__init__(**get_args(locals()))
