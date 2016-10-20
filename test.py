@@ -85,7 +85,7 @@ print(res)
 
 # Button with openwidget, open url & send to app service
 b1 = Button(name = "Harry Potter", id="harry", action=OpenWidgetAction(url="https://goo.gl/aygRGf", desktop_type="sidebar"))
-b2 = Button(name = "Ron Weasley", id="ron", action=OpenBrowserAction(url="https://goo.gl/gDpMVn", desktop_type="sidebar"))
+b2 = Button(name = "Ron Weasley", id="ron", action=OpenBrowserAction(url="https://goo.gl/gDpMVn", send_context=True))
 b3 = Button(name = "Hermione Granger", id="hermione", action=SendToAppAction())
 attachment = Attachment(title="Test buttons", buttons=[b1,b2,b3])
 button_message = Message(to=bala_guid, text="Who is your favourite Harry Potter character?", attachments = [attachment])

@@ -99,7 +99,7 @@ class OpenWidgetAction(ButtonAction):
         super(OpenWidgetAction, self).__init__(type="openWidget", **get_args(locals()))
 
 class OpenBrowserAction(ButtonAction):
-    def __init__(self, url, desktop_type, mobile_type = "modal"):
+    def __init__(self, url, send_context = None):
         super(OpenBrowserAction, self).__init__(type="openBrowser", **get_args(locals()))
 
 class SendToAppAction(ButtonAction):
