@@ -30,6 +30,14 @@ class FlockClient(object):
         r = self._post_request({}, "groups.list")
         return json.loads(r.text)
 
+    def get_user_info(self):
+        r = self._post_request({}, "users.getInfo")
+        return json.loads(r.text)
+
+    def get_contacts(self):
+        r = self._post_request({}, "roster.listContacts")
+        return json.loads(r.text)
+
 
     
 #----------------------------Internal functions---------------------------------

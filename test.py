@@ -114,3 +114,9 @@ print flock_client.get_group_members(group_id)
 
 # Get groups list of which user is member of 
 print flock_client.get_groups()
+
+# Get user info
+print flock_client.get_user_info()
+
+# Get all contacts
+print flock_client.get_contacts()
