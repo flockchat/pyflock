@@ -44,5 +44,18 @@ views.add_html(html)
 attachment = Attachment(title="Test html", description="Replace inline with your own html", views=views)
 # NOTE: attachments is an array of attachment
 html_message = Message(to=bala_guid, attachments = [attachment])
-res = flock_client.send_chat(html_message)
+#res = flock_client.send_chat(html_message)
 print(res)
+
+# Send a FlockML view
+# NOTE: No need for a flockml view object
+views = Views()
+views.add_flockml("<flockml>FlockML is <b>AWESOME</b></flockml>")
+
+attachment = Attachment(title="Test flockml", description="Replace flockml with your own flockml", views=views)
+# NOTE: attachments is an array of attachment
+flockml_message = Message(to=bala_guid, attachments = [attachment])
+res = flock_client.send_chat(flockml_message)
+print(res)
+
+

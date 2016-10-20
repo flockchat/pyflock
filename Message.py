@@ -49,6 +49,9 @@ class Views(Payload):
     def add_html(self, h):
         self.html = h
 
+    def add_flockml(self, f):
+        self.flockml = f
+
 class View(Payload):
     def __init__(self, **kwargs):
         super(View, self).__init__(**kwargs)
