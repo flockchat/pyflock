@@ -1,5 +1,5 @@
 from FlockClient import FlockClient
-from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView
+from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image
 
 # DO NOT PANIC
 
@@ -55,7 +55,18 @@ views.add_flockml("<flockml>FlockML is <b>AWESOME</b></flockml>")
 attachment = Attachment(title="Test flockml", description="Replace flockml with your own flockml", views=views)
 # NOTE: attachments is an array of attachment
 flockml_message = Message(to=bala_guid, attachments = [attachment])
-res = flock_client.send_chat(flockml_message)
+#res = flock_client.send_chat(flockml_message)
+print(res)
+
+# Send a Image view
+views = Views()
+image = ImageView(original=Image(src="http://library.acropolis.org/wp-content/uploads/2014/11/One_ring.png", width=400, height=400),filename="onering.png")
+views.add_image(image)
+
+attachment = Attachment(title="Test image", description="One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them", views=views)
+# NOTE: attachments is an array of attachment
+image_message = Message(to=bala_guid, attachments = [attachment])
+res = flock_client.send_chat(image_message)
 print(res)
 
 

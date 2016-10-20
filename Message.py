@@ -52,6 +52,9 @@ class Views(Payload):
     def add_flockml(self, f):
         self.flockml = f
 
+    def add_image(self, i):
+        self.image = i
+
 class View(Payload):
     def __init__(self, **kwargs):
         super(View, self).__init__(**kwargs)
@@ -63,3 +66,12 @@ class WidgetView(View):
 class HtmlView(View):
     def __init__(self, inline, height, width = None):
         super(HtmlView, self).__init__(**get_args(locals()))
+
+class Image(Payload):
+    def __init__(self, src, height = None, width = None):
+        super(Image, self).__init__(**get_args(locals()))
+
+class ImageView(View):
+    def __init__(self, original, thumbnail = None, filename = None):
+        super(ImageView, self).__init__(**get_args(locals()))
+
