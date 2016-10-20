@@ -4,17 +4,23 @@ from FlockClient import FlockClient
 # You probably want to copy this entire line
 from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download, Button, OpenWidgetAction, OpenBrowserAction, SendToAppAction
 
-
 #------ This is pyflock demo. The app id is of a pyflock bot for testing
-#Create a flock client. Needs token and app id for this. You can get the token id and app id when you register. This is for a bot.
-flock_client = FlockClient(token='d4c44699-a1ee-457f-bb31-e444656051b2', app_id='987b522b-c1b8-41a4-9d22-5f981c464fef')
 
-res = None
-
-# The test guids
+# The test ids and tokens
+bot_token = 'd4c44699-a1ee-457f-bb31-e444656051b2'
 bala_guid = 'u:7v3ni473vei3nnbi'
 deepa_guid = 'u:5qqt9oyaotyrroa5'
 group_id = 'g:2213136127433909016'
+app_id = '987b522b-c1b8-41a4-9d22-5f981c464fef'
+deepa_token = bot_token
+
+
+
+#Create a flock client. Needs token and app id for this. You can get the token id and app id when you register. This is for a bot.
+flock_client = FlockClient(token=bot_token, app_id=app_id)
+
+res = None
+
 
 # Send a simple send message
 simple_message = Message(to=bala_guid,text="Hello, world")
@@ -101,3 +107,10 @@ print(res)
 
 # Get group info
 print flock_client.get_group_info(group_id)
+
+# Get group members
+flock_client = FlockClient(token=deepa_token, app_id=app_id)
+print flock_client.get_group_members(group_id)
+
+# Get groups list of which user is member of 
+print flock_client.get_groups()

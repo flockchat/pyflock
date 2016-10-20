@@ -1,7 +1,7 @@
 import requests
 import json
 from Message import Payload
-from Groups import GetGroupInfo
+from Groups import GroupRequest
 
 class FlockClient(object):
     api_url = "https://api.flock-staging.co/v1/"
@@ -25,6 +25,11 @@ class FlockClient(object):
         data = GroupRequest(group_id=group_id)._get_repr()
         r = self._post_request(data, "groups.getMembers")
         return json.loads(r.text)
+
+    def get_groups(self):
+        r = self._post_request({}, "groups.list")
+        return json.loads(r.text)
+
 
     
 #----------------------------Internal functions---------------------------------
