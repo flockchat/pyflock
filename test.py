@@ -14,6 +14,7 @@ res = None
 # The test guids
 bala_guid = 'u:7v3ni473vei3nnbi'
 deepa_guid = 'u:5qqt9oyaotyrroa5'
+group_id = 'g:2213136127433909016'
 
 # Send a simple send message
 simple_message = Message(to=bala_guid,text="Hello, world")
@@ -95,5 +96,8 @@ print(res)
 # Now, just for fun, let us change colours
 attachment = Attachment(title="Test colour", color="#FF0000", description="It is red!")
 color_message = Message(to=bala_guid, attachments=[attachment])
-res = flock_client.send_chat(color_message)
+#res = flock_client.send_chat(color_message)
 print(res)
+
+# Get group info
+print flock_client.get_group_info(group_id)

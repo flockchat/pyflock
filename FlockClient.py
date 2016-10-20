@@ -1,6 +1,7 @@
 import requests
 import json
 from Message import Payload
+from Groups import GetGroupInfo
 
 class FlockClient(object):
     api_url = "https://api.flock-staging.co/v1/"
@@ -13,7 +14,12 @@ class FlockClient(object):
         data = message._get_repr()
         print data
         r = self._post_request(data, "chat.sendMessage")
-        return r.text
+        return json.loads(r.text)
+    
+    def get_group_info(self, group_id):
+        data = GetGroupInfo(group_id=group_id)._get_repr()
+        r = self._post_request(data, "groups.getInfo")
+        return json.loads(r.text)
     
 #----------------------------Internal functions---------------------------------
     def _post_request(self, data, endpoint):
