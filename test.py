@@ -1,5 +1,5 @@
 from FlockClient import FlockClient
-from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image
+from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download
 
 # DO NOT PANIC
 
@@ -66,7 +66,17 @@ views.add_image(image)
 attachment = Attachment(title="Test image", description="One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them", views=views)
 # NOTE: attachments is an array of attachment
 image_message = Message(to=bala_guid, attachments = [attachment])
-res = flock_client.send_chat(image_message)
+#res = flock_client.send_chat(image_message)
 print(res)
 
+# Send download files
+d = Download(src="http://wallpapercave.com/wp/H630T6R.jpg")
 
+views = Views()
+views.add_flockml("<flockml>Download the <i>matrix</i></flockml>")
+
+# NOTE: downloads is always a list
+attachment = Attachment(title="Test files", downloads=[d], views=views)
+files_message = Message(to=bala_guid, attachments = [attachment])
+res = flock_client.send_chat(files_message)
+print(res)

@@ -17,10 +17,11 @@ class Payload(object):
         for k, v in self.__dict__.iteritems():
             if v is not None:
                 nv = v
+                print k, v
                 if isinstance(v, Payload):
                     nv = v._get_repr()
                 elif isinstance(v, list):
-                    nv = json.dumps([i._get_repr() for i in v])
+                    nv = [i._get_repr() for i in v]
 
                 nk = to_camel_case(k)
                 data[nk] = nv
@@ -55,6 +56,9 @@ class Views(Payload):
     def add_image(self, i):
         self.image = i
 
+    def add_downloads(self, d):
+        self.downloads = d
+
 class View(Payload):
     def __init__(self, **kwargs):
         super(View, self).__init__(**kwargs)
@@ -75,3 +79,6 @@ class ImageView(View):
     def __init__(self, original, thumbnail = None, filename = None):
         super(ImageView, self).__init__(**get_args(locals()))
 
+class Download(Payload):
+    def __init__(self, src, mime = None, filename = None, size = None):
+        super(Download, self).__init__(**get_args(locals()))
