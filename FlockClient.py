@@ -8,7 +8,7 @@ class FlockClient(object):
         self.app_id = app_id
 
     def send_chat(self, message):
-        data = message._get_dict()
+        data = message._get_repr()
         print data
         r = self._post_request(data, "chat.sendMessage")
         return r.text
@@ -17,7 +17,7 @@ class FlockClient(object):
     def _post_request(self, data, endpoint):
         data['token'] = self.token
         data['appid'] = self.app_id
-        print data
+        print "data = %s" % data
         r = requests.post(self._get_url(endpoint), params=data)
         return r
 

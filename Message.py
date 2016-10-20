@@ -12,18 +12,21 @@ class Payload(object):
         for kw,arg in kwargs.iteritems():
             setattr(self, kw, arg)
 
-    def _get_dict(self):
+    def _get_repr(self):
         data = dict()
         for k, v in self.__dict__.iteritems():
             if v is not None:
                 nv = v
                 if isinstance(v, Payload):
-                    nv = json.dumps(nv._get_dict())
+                    nv = v._get_repr()
+                elif isinstance(v, list):
+                    nv = json.dumps([i._get_repr() for i in v])
+
                 nk = to_camel_case(k)
                 data[nk] = nv
 
         return data
-
+    
 class Message(Payload):
     def __init__(self, to = None, text = "", attachments = None, send_as = None, flockml = None, notification = None, mentions = None):
         super(Message, self).__init__(**get_args(locals()))
@@ -35,3 +38,18 @@ class SendAs(Payload):
 class Attachment(Payload):
     def __init__(self, id = None, title = None, description = None, color = None, views = None, url = None, forward = None, downloads = None, buttons = None):
         super(Attachment, self).__init__(**get_args(locals()))
+
+class Views(Payload):
+    def __init__(self):
+        super(Views, self).__init__()
+
+    def add_widget(self, w):
+        self.widget = w
+
+class View(Payload):
+    def __init__(self, **kwargs):
+        super(View, self).__init__(**kwargs)
+
+class WidgetView(View):
+    def __init__(self, src, height, width = None):
+        super(WidgetView, self).__init__(**get_args(locals()))
