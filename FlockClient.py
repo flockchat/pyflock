@@ -17,9 +17,15 @@ class FlockClient(object):
         return json.loads(r.text)
     
     def get_group_info(self, group_id):
-        data = GetGroupInfo(group_id=group_id)._get_repr()
+        data = GroupRequest(group_id=group_id)._get_repr()
         r = self._post_request(data, "groups.getInfo")
         return json.loads(r.text)
+
+    def get_group_members(self, group_id):
+        data = GroupRequest(group_id=group_id)._get_repr()
+        r = self._post_request(data, "groups.getMembers")
+        return json.loads(r.text)
+
     
 #----------------------------Internal functions---------------------------------
     def _post_request(self, data, endpoint):
