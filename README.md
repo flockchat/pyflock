@@ -11,7 +11,7 @@ virtualenv venv -p python2
 Install pyflock using:
 
 ```
-pip install git+git://github.com/talk-to/pyflock
+pip install git+git://github.com/flockchat/pyflock
 ```
 
 ## Usage
