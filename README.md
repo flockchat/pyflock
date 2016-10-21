@@ -16,12 +16,22 @@ pip install git+git://github.com/talk-to/pyflock
 
 ## Usage
 
+### Setup
+
 Import the various classes and methods needed
 
 ```python
 from pyflock import FlockClient, verify_event_token
 from pyflock import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download, Button, OpenWidgetAction, OpenBrowserAction, SendToAppAction
 ```
+Create the flock client (needed for all apis except `verify_event_token`
+
+```python
+flock_client = FlockClient(token=bot_token, app_id=app_id) # 
+
+```
+`token` can be an user token, For group and user apis, user token is required. For sending messages it can either be an user token or [bot token](https://docs.flock.co/display/flockos/Bots). `to` in message apis can be either [user or group ids](https://docs.flock.co/display/flockos/Identifiers).
+
 ### Index
 
   - [Event Tokens](#verifying-event-index)
@@ -149,7 +159,6 @@ print flock_client.get_group_info(group_id)
 
 #### Get group members
 ```python
-flock_client = FlockClient(token=user_token, app_id=app_id)
 print flock_client.get_group_members(group_id)
 ```
 
