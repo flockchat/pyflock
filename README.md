@@ -49,7 +49,7 @@ print verify_event_token(event_token = event_token, app_secret = app_secret)
 
 ### Sending messages
 
-#### Send a simple send message
+#### Send a simple message
 ```python
 simple_message = Message(to=user_guid,text="Hello, world")
 # returns a message id
