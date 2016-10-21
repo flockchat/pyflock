@@ -2,4 +2,4 @@ venv/
 *.swp
 *.pyc
 /dist/
-/.*egg-info
+pyflock.egg-info/
