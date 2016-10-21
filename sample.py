@@ -1,8 +1,8 @@
 # DO NOT PANIC
 
-from FlockClient import FlockClient, verify_event_token
+from pyflock import FlockClient, verify_event_token
 # You probably want to copy this entire line
-from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download, Button, OpenWidgetAction, OpenBrowserAction, SendToAppAction
+from pyflock import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download, Button, OpenWidgetAction, OpenBrowserAction, SendToAppAction
 
 #------ This is pyflock demo. The app id is of a pyflock bot for testing
 
