@@ -1,4 +1,5 @@
 venv/
 *.swp
 *.pyc
-dist/
+/dist/
+/.*egg-info
