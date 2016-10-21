@@ -19,7 +19,6 @@ def _get_padded_token(token):
 
 def verify_event_token(event_token, app_secret):
     processed_token = _get_padded_token(event_token)
-    print processed_token
     return jwt.decode(processed_token, app_secret, algorithms=['HS256'])
 
 class FlockClient(object):
@@ -31,7 +30,6 @@ class FlockClient(object):
 
     def send_chat(self, message):
         data = message._get_repr()
-        print data
         r = self._post_request(data, "chat.sendMessage")
         return json.loads(r.text)
     
@@ -61,7 +59,6 @@ class FlockClient(object):
     def _post_request(self, data, endpoint):
         data['token'] = self.token
         data['appid'] = self.app_id
-        print "data = %s" % data
         data = self._get_jsonized(data)
         r = requests.post(self._get_url(endpoint), params=data)
         return r

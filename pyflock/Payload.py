@@ -18,7 +18,6 @@ class Payload(object):
         for k, v in self.__dict__.iteritems():
             if v is not None:
                 nv = v
-                print k, v
                 if isinstance(v, Payload):
                     nv = v._get_repr()
                 elif isinstance(v, list):
