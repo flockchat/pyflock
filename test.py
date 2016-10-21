@@ -1,6 +1,6 @@
 # DO NOT PANIC
 
-from FlockClient import FlockClient
+from FlockClient import FlockClient, verify_event_token
 # You probably want to copy this entire line
 from Message import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download, Button, OpenWidgetAction, OpenBrowserAction, SendToAppAction
 
@@ -106,17 +106,22 @@ color_message = Message(to=bala_guid, attachments=[attachment])
 print(res)
 
 # Get group info
-print flock_client.get_group_info(group_id)
+#print flock_client.get_group_info(group_id)
 
 # Get group members
 flock_client = FlockClient(token=deepa_token, app_id=app_id)
-print flock_client.get_group_members(group_id)
+#print flock_client.get_group_members(group_id)
 
 # Get groups list of which user is member of 
-print flock_client.get_groups()
+#print flock_client.get_groups()
 
 # Get user info
-print flock_client.get_user_info()
+#print flock_client.get_user_info()
 
 # Get all contacts
-print flock_client.get_contacts()
+#print flock_client.get_contacts()
+
+# Test JWT token verification
+event_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6Im15LWFwcCIsInVzZXJJZCI6InU6M2QwMDQzMDItYTk3ZC00MDE2LTkxYjQtNmMyMjFiYjQ3ODFkIiwiZXhwIjoyMDAwMDAwMDAwLCJpYXQiOjE0Njk1NDE1NzIsImp0aSI6IjU2OGVhZGY4LTc3ZmMtNDEwOC05MWRhLWQ5NGRhNDZkNzA5YiJ9.-_lhKHsGE_s9a4apLYPgLVWW2UZtD4_-B8yxKtAmmqg'
+app_secret = '869eb1d0-419d-4747-98b4-6d81360a6681'
+print verify_event_token(event_token = event_token, app_secret = app_secret)

@@ -2,6 +2,25 @@ import requests
 import json
 from Message import Payload
 from Groups import GroupRequest
+import jwt
+import urllib
+import base64
+
+def _process_token_part(p):
+    while len(p) % 4 != 0:
+        p += "="
+    p = base64.b64encode(base64.urlsafe_b64decode(p))
+    return p
+
+def _get_padded_token(token):
+    parts = token.split('.')
+    processed_parts = [_process_token_part(p) for p in parts]
+    return '.'.join(processed_parts)
+
+def verify_event_token(event_token, app_secret):
+    processed_token = _get_padded_token(event_token)
+    print processed_token
+    return jwt.decode(processed_token, app_secret, algorithms=['HS256'])
 
 class FlockClient(object):
     api_url = "https://api.flock-staging.co/v1/"
@@ -38,8 +57,6 @@ class FlockClient(object):
         r = self._post_request({}, "roster.listContacts")
         return json.loads(r.text)
 
-
-    
 #----------------------------Internal functions---------------------------------
     def _post_request(self, data, endpoint):
         data['token'] = self.token
@@ -59,10 +76,8 @@ class FlockClient(object):
 
         return d
 
-
     def _get_url(self, endpoint):
         return self.api_url + endpoint
-
     #----------------------------Standard functions-----------------------------------
     def __repr__(self):
         return str(self)
