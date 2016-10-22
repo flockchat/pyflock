@@ -66,7 +66,7 @@ class FlockClient(object):
     def _get_jsonized(self, data):
         d = dict()
         for k, v in data.iteritems():
-            if isinstance(v, Payload) or isinstance(v, list):
+            if isinstance(v, dict) or isinstance(v, list):
                 d[k] = json.dumps(v)
             else:
                 d[k] = v
