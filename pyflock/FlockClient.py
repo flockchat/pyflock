@@ -22,7 +22,7 @@ def verify_event_token(event_token, app_secret):
     return jwt.decode(processed_token, app_secret, algorithms=['HS256'])
 
 class FlockClient(object):
-    api_url = "https://api.flock-staging.co/v1/"
+    api_url = "https://api.flock.co/v1/"
 
     def __init__(self, token, app_id):
         self.token = token
