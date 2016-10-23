@@ -119,6 +119,8 @@ print flock_client.get_user_info()
 print flock_client.get_contacts()
 
 # Test JWT token verification
-event_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6Im15LWFwcCIsInVzZXJJZCI6InU6M2QwMDQzMDItYTk3ZC00MDE2LTkxYjQtNmMyMjFiYjQ3ODFkIiwiZXhwIjoyMDAwMDAwMDAwLCJpYXQiOjE0Njk1NDE1NzIsImp0aSI6IjU2OGVhZGY4LTc3ZmMtNDEwOC05MWRhLWQ5NGRhNDZkNzA5YiJ9.-_lhKHsGE_s9a4apLYPgLVWW2UZtD4_-B8yxKtAmmqg'
-app_secret = '869eb1d0-419d-4747-98b4-6d81360a6681'
+event_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6IjFiZjE3ODdkLWEwMzctNDQ1OC04M2E3LTY5ZDY3YjVhMzJkMSIsInVzZXJJZCI6InU6Z3JpMzNwZzNyMXl2aXZqYyIsImV4cCI6MTQ3Nzc3MjE5NywiaWF0IjoxNDc3MTY3Mzk3LCJqdGkiOiJhNTM3MTQ3My0wYTdjLTQxYjctOGYxMS05ZjdmNGY0NDRmMmUifQ.ATZiYS-QAKLagBkWQxRiB9R4MdvWByFTGm6xFfEfIsA'
+app_secret = '19177c69-000b-42ed-a2af-1afe1131f769'
 print verify_event_token(event_token = event_token, app_secret = app_secret)
+
+
