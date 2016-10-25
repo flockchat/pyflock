@@ -6,22 +6,8 @@ import jwt
 import urllib
 import base64
 
-def _process_token_part(p):
-    while len(p) % 4 != 0:
-        p += "="
-    p = base64.b64encode(base64.urlsafe_b64decode(p))
-    while p[-1] == '=':
-        p = p[:-1]
-    return p
-
-def _get_padded_token(token):
-    parts = token.split('.')
-    processed_parts = [_process_token_part(p) for p in parts]
-    return '.'.join(processed_parts)
-
 def verify_event_token(event_token, app_secret):
-    processed_token = _get_padded_token(event_token)
-    return jwt.decode(processed_token, app_secret, algorithms=['HS256'])
+    return jwt.decode(event_token, app_secret, algorithms=['HS256'])
 
 class FlockClient(object):
     api_url = "https://api.flock.co/v1/"
