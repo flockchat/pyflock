@@ -21,6 +21,7 @@ class EventHandlerClient(object):
         self.on_chat_generate_url_preview = None
         self.on_chat_receive_message = None
         self.on_client_flockml_action = None
+        self.on_client_message_action = None
         self.on_client_open_attachment_widget = None
         self.on_client_press_button = None
         self.on_client_slash_command = None
@@ -64,6 +65,8 @@ class EventHandlerClient(object):
             return EventHandlerClient.send_response(self.on_chat_receive_message, event, start_response)
         elif event.name == "client.flockmlAction":
             return EventHandlerClient.send_response(self.on_client_flockml_action, event, start_response)
+        elif event.name == "client.messageAction":
+            return EventHandlerClient.send_response(self.on_client_message_action, event, start_response)
         elif event.name == "client.openAttachmentWidget":
             return EventHandlerClient.send_response(self.on_client_open_attachment_widget, event, start_response)
         elif event.name == "client.pressButton":

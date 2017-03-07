@@ -50,19 +50,14 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = flockos.Chat()
 token = 'token_example' # str | 
-to = 'to_example' # str | 
-text = 'text_example' # str | 
-flockml = 'flockml_example' # str |  (optional)
-notification = 'notification_example' # str |  (optional)
-mentions = ['mentions_example'] # list[str] |  (optional)
-send_as = flockos.SendAs() # SendAs |  (optional)
-attachments = [flockos.Attachment()] # list[Attachment] |  (optional)
+chat = 'chat_example' # str | 
+uids = ['uids_example'] # list[str] | 
 
 try:
-    api_response = api_instance.send_message(token, to, text, flockml=flockml, notification=notification, mentions=mentions, send_as=send_as, attachments=attachments)
+    api_response = api_instance.fetch_messages(token, chat, uids)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling Chat->send_message: %s\n" % e)
+    print("Exception when calling Chat->fetch_messages: %s\n" % e)
 
 ```
 
@@ -72,12 +67,14 @@ All URIs are relative to *https://api.flock-staging.co/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*Chat* | [**fetch_messages**](docs/Chat.md#fetch_messages) | **POST** /chat.fetchMessages | 
 *Chat* | [**send_message**](docs/Chat.md#send_message) | **POST** /chat.sendMessage | 
 *Groups* | [**get_info**](docs/Groups.md#get_info) | **POST** /groups.getInfo | 
 *Groups* | [**get_members**](docs/Groups.md#get_members) | **POST** /groups.getMembers | 
 *Groups* | [**list**](docs/Groups.md#list) | **POST** /groups.list | 
 *Roster* | [**list_contacts**](docs/Roster.md#list_contacts) | **POST** /roster.listContacts | 
 *Users* | [**get_info**](docs/Users.md#get_info) | **POST** /users.getInfo | 
+*Users* | [**get_public_profile**](docs/Users.md#get_public_profile) | **POST** /users.getPublicProfile | 
 
 
 ## Documentation For Models
