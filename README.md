@@ -1,182 +1,111 @@
-# pyflock
-pyflock is a python client for [FlockOS](https://docs.flock.co/). pyflock currently runs only on Python 2.x
+# flockos
+Integrate your apps with flock using this API
 
-## Install
-If you are using virtualenv, use the following command to create the virtualenv:
+- API version: 0.0.4
+- Package version: 1.0.0
 
+## Requirements.
+
+Python 2.7 and 3.4+
+
+## Installation & Usage
+### pip install
+
+If the python package is hosted on Github, you can install directly from Github
+
+```sh
+pip install git+https://github.com//.git
 ```
-virtualenv venv -p python2
+(you may need to run `pip` with root permission: `sudo pip install git+https://github.com//.git`)
+
+Then import the package:
+```python
+import flockos 
 ```
 
-Install pyflock using:
+### Setuptools
 
+Install via [Setuptools](http://pypi.python.org/pypi/setuptools).
+
+```sh
+python setup.py install --user
 ```
-pip install git+git://github.com/flockchat/pyflock
+(or `sudo python setup.py install` to install the package for all users)
+
+Then import the package:
+```python
+import flockos
 ```
 
-## Usage
+## Getting Started
 
-### Setup
-
-Import the various classes and methods needed
+Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```python
-from pyflock import FlockClient, verify_event_token
-from pyflock import Message, SendAs, Attachment, Views, WidgetView, HtmlView, ImageView, Image, Download, Button, OpenWidgetAction, OpenBrowserAction, SendToAppAction
-```
-Create the flock client (needed for all apis except `verify_event_token`
+from __future__ import print_function
+import time
+import flockos
+from flockos.rest import ApiException
+from pprint import pprint
+# create an instance of the API class
+api_instance = flockos.Chat()
+token = 'token_example' # str | 
+to = 'to_example' # str | 
+text = 'text_example' # str | 
+flockml = 'flockml_example' # str |  (optional)
+notification = 'notification_example' # str |  (optional)
+mentions = ['mentions_example'] # list[str] |  (optional)
+send_as = flockos.SendAs() # SendAs |  (optional)
+attachments = [flockos.Attachment()] # list[Attachment] |  (optional)
 
-```python
-flock_client = FlockClient(token=bot_token, app_id=app_id) # 
+try:
+    api_response = api_instance.send_message(token, to, text, flockml=flockml, notification=notification, mentions=mentions, send_as=send_as, attachments=attachments)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling Chat->send_message: %s\n" % e)
 
-```
-`token` can be an user token, For group and user apis, user token is required. For sending messages it can either be an user token or [bot token](https://docs.flock.co/display/flockos/Bots). `to` in message apis can be either [user or group ids](https://docs.flock.co/display/flockos/Identifiers).
-
-### Index
-
-  - [Event Tokens](#verifying-event-index)
-  - [Sending Messages](#sending-messages)
-  - [Group APIs](#group-apis)
-  - [User APIs](#user-apis)
-
-### Verifying event tokens
-See [Event Tokens Docs](https://docs.flock.co/display/flockos/Event+Tokens)
-```python
-event_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6Im15LWFwcCIsInVzZXJJZCI6InU6M2QwMDQzMDItYTk3ZC00MDE2LTkxYjQtNmMyMjFiYjQ3ODFkIiwiZXhwIjoyMDAwMDAwMDAwLCJpYXQiOjE0Njk1NDE1NzIsImp0aSI6IjU2OGVhZGY4LTc3ZmMtNDEwOC05MWRhLWQ5NGRhNDZkNzA5YiJ9.-_lhKHsGE_s9a4apLYPgLVWW2UZtD4_-B8yxKtAmmqg'
-app_secret = '869eb1d0-419d-4747-98b4-6d81360a6681'
-print verify_event_token(event_token = event_token, app_secret = app_secret)
 ```
 
-### Sending messages
+## Documentation for API Endpoints
 
-#### Send a simple message
-```python
-simple_message = Message(to=user_guid,text="Hello, world")
-# returns a message id
-res = flock_client.send_chat(simple_message)
-print(res)
-```
+All URIs are relative to *https://api.flock-staging.co/v1*
 
-#### Send a message using a custom name and profile image
-```python
-send_as_hal = SendAs(name='HAL-9000', profile_image='https://pbs.twimg.com/profile_images/1788506913/HAL-MC2_400x400.png')
-send_as_message = Message(to=user_guid,text="I'm sorry Dave, I'm afraid I can't do that",send_as=send_as_hal)
-res = flock_client.send_chat(send_as_message)
-print(res)
-```
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+*Chat* | [**send_message**](docs/Chat.md#send_message) | **POST** /chat.sendMessage | 
+*Groups* | [**get_info**](docs/Groups.md#get_info) | **POST** /groups.getInfo | 
+*Groups* | [**get_members**](docs/Groups.md#get_members) | **POST** /groups.getMembers | 
+*Groups* | [**list**](docs/Groups.md#list) | **POST** /groups.list | 
+*Roster* | [**list_contacts**](docs/Roster.md#list_contacts) | **POST** /roster.listContacts | 
+*Users* | [**get_info**](docs/Users.md#get_info) | **POST** /users.getInfo | 
 
-#### Send a widget view
-```python
-views = Views()
-widget = WidgetView(src="http://example.com",height=250)
-views.add_widget(widget)
 
-attachment = Attachment(title="Test widget", description="Replace src with your own page", views=views)
-# NOTE: attachments is an array of attachment
-widget_message = Message(to=user_guid, attachments = [attachment])
-res = flock_client.send_chat(widget_message)
-print(res)
-```
+## Documentation For Models
 
-#### Send a HTML view
-```python
-views = Views()
-html = HtmlView(inline="It <b>Works</b>",height=50)
-views.add_html(html)
+ - [ActionConfig](docs/ActionConfig.md)
+ - [Attachment](docs/Attachment.md)
+ - [AttachmentButton](docs/AttachmentButton.md)
+ - [AttachmentDownload](docs/AttachmentDownload.md)
+ - [Error](docs/Error.md)
+ - [Group](docs/Group.md)
+ - [HtmlView](docs/HtmlView.md)
+ - [Image](docs/Image.md)
+ - [ImageView](docs/ImageView.md)
+ - [Message](docs/Message.md)
+ - [PublicProfile](docs/PublicProfile.md)
+ - [SendAs](docs/SendAs.md)
+ - [UidResponse](docs/UidResponse.md)
+ - [User](docs/User.md)
+ - [Views](docs/Views.md)
+ - [WidgetView](docs/WidgetView.md)
 
-attachment = Attachment(title="Test html", description="Replace inline with your own html", views=views)
-# NOTE: attachments is an array of attachment
-html_message = Message(to=user_guid, attachments = [attachment])
-res = flock_client.send_chat(html_message)
-print(res)
-```
 
-#### Send a FlockML view
-```python
-# NOTE: No need for a flockml view object
-views = Views()
-views.add_flockml("<flockml>FlockML is <b>AWESOME</b></flockml>")
+## Documentation For Authorization
 
-attachment = Attachment(title="Test flockml", description="Replace flockml with your own flockml", views=views)
-# NOTE: attachments is an array of attachment
-flockml_message = Message(to=user_guid, attachments = [attachment])
-res = flock_client.send_chat(flockml_message)
-print(res)
-```
+ All endpoints do not require authorization.
 
-#### Send a Image view
-```python
-views = Views()
-image = ImageView(original=Image(src="http://library.acropolis.org/wp-content/uploads/2014/11/One_ring.png", width=400, height=400),filename="onering.png")
-views.add_image(image)
 
-attachment = Attachment(title="Test image", description="One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them", views=views)
-# NOTE: attachments is an array of attachment
-image_message = Message(to=user_guid, attachments = [attachment])
-res = flock_client.send_chat(image_message)
-print(res)
-```
+## Author
 
-#### Send download files
-```python
-d = Download(src="http://wallpapercave.com/wp/H630T6R.jpg")
-
-views = Views()
-views.add_flockml("<flockml>Download the <i>matrix</i></flockml>")
-
-# NOTE: downloads is always a list
-attachment = Attachment(title="Test files", downloads=[d], views=views)
-files_message = Message(to=user_guid, attachments = [attachment])
-res = flock_client.send_chat(files_message)
-print(res)
-```
-
-#### Button with openwidget, open url & send to app service
-```python
-b1 = Button(name = "Harry Potter", id="harry", action=OpenWidgetAction(url="https://goo.gl/aygRGf", desktop_type="sidebar"))
-b2 = Button(name = "Ron Weasley", id="ron", action=OpenBrowserAction(url="https://goo.gl/gDpMVn", send_context=True))
-b3 = Button(name = "Hermione Granger", id="hermione", action=SendToAppAction())
-attachment = Attachment(title="Test buttons", buttons=[b1,b2,b3])
-button_message = Message(to=user_guid, text="Who is your favourite Harry Potter character?", attachments = [attachment])
-res = flock_client.send_chat(button_message)
-print(res)
-```
-
-#### Now, just for fun, let us change colours
-```python
-attachment = Attachment(title="Test colour", color="#FF0000", description="It is red!")
-color_message = Message(to=user_guid, attachments=[attachment])
-res = flock_client.send_chat(color_message)
-print(res)
-```
-
-### Group APIs
-
-#### Get group info
-```python
-print flock_client.get_group_info(group_id)
-```
-
-#### Get group members
-```python
-print flock_client.get_group_members(group_id)
-```
-
-#### Get groups list of which user is member of 
-```python
-print flock_client.get_groups()
-```
-
-### User APIs
-
-#### Get user info
-```python
-print flock_client.get_user_info()
-```
-
-#### Get all contacts
-```python
-print flock_client.get_contacts()
-```
 
 
