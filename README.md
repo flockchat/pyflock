@@ -28,11 +28,16 @@ Views, WidgetView, PublicProfile
 `token` can be an user token, For group and user apis, user token is required. For sending messages it can either be an user token or [bot token](https://docs.flock.co/display/flockos/Bots). `to` in message apis can be either [user or group ids](https://docs.flock.co/display/flockos/Identifiers).
 
 ### Index
-- [Sending Messages](#sending-messages)
-- [Group APIs](#group-apis)
-- [User APIs](#user-apis)
-- [Contact APIs](#contact-apis)
+- [Methods](#methods)
+    - [Sending Messages](#sending-messages)
+    - [Group APIs](#group-apis)
+    - [User APIs](#user-apis)
+    - [Contact APIs](#contact-apis)
+- [Events](#events)
+    - [Handling events](#handling-events)
+    - [Verifying event tokens](#verifying-event-token)
 
+## [Methods](https://docs.flock.co/display/flockos/Methods)
 ### Sending messages
 
 #### Send a simple message
@@ -108,7 +113,7 @@ b1 = AttachmentButton(name = "Harry Potter", id="harry", action=ActionConfig(typ
 b2 = AttachmentButton(name = "Ron Weasley", id="ron", action=ActionConfig(type="openBrowser", url="https://goo.gl/gDpMVn", send_context=True))
 b3 = AttachmentButton(name = "Hermione Granger", id="hermione", action=ActionConfig(type="sendToApp"))
 attachment = Attachment(title="Test buttons", buttons=[b1,b2,b3])
-res = chat.send_message(token=bot_token,to=user_guid, text="Who is your favourite Harry Potter character?", attachments = [attachment]))
+res = chat.send_message(token=bot_token,to=user_guid, text="Who is your favourite Harry Potter character?", attachments = [attachment])
 print(res)
 ```
 
@@ -161,4 +166,43 @@ print users.get_public_profile(token, user_id)
 #### Get all contacts
 ```python
 print roster.list_contacts(token)
+```
+
+## [Events](https://docs.flock.co/display/flockos/Events)
+
+### Handling events
+
+Create instance of `EventHandlerClient`
+```python
+event_handler_client = EventHandlerClient(app_id = "<appID>", app_secret = "<appSecret>")
+```
+Attach `eventListeners` with the client (these will be fired when an event occurs) 
+```python
+@event_handler_client.on_app_install
+def on_app_install_listener():
+    #define implementation of listener here
+    pass
+```
+Attach `event_handler_client` with your web framework by calling `event_handler_client.handleRequest` when event request is received
+```python
+event_handler_client.handle(environ, start_response)
+```
+
+
+### Verifying [event token](http://docs.flock.co/display/flockos/Event+Tokens)
+For verifying event tokens, you can follow the following 2 ways :
+
+1. Wrap the app object in `TokenVerifierFilter`  to verify event token associated with every event request
+```python
+app = TokenVerifierFilter(app, "<appId>", "<appSecret>");
+```
+
+2. Call the method `decode_and_verify_request` in `TokenVerifierFilter`  to verify event token associated with an event
+```python
+TokenVerifierFilter.decode_and_verify_request(environ, "<appSecret>", "<appId>");
+# event body
+body = environ['request_body']
+# event payload
+payload = environ['event_token_payload']
+
 ```
