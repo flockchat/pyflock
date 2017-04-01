@@ -13,19 +13,46 @@ class EventHandlerClient(object):
     def __init__(self, app_secret, app_id):
         self.app_secret = app_secret
         self.app_id = app_id
-        self.defineEventHandlers()
+        self.on_app_install_handler = None
+        self.on_app_uninstall_handler = None
+        self.on_chat_generate_url_preview_handler = None
+        self.on_chat_receive_message_handler = None
+        self.on_client_flockml_action_handler = None
+        self.on_client_open_attachment_widget_handler = None
+        self.on_client_message_action_handler = None
+        self.on_client_press_button_handler = None
+        self.on_client_slash_command_handler = None
+        self.on_client_widget_action_handler = None
 
-    def defineEventHandlers(self):
-        self.on_app_install = None
-        self.on_app_uninstall = None
-        self.on_chat_generate_url_preview = None
-        self.on_chat_receive_message = None
-        self.on_client_flockml_action = None
-        self.on_client_message_action = None
-        self.on_client_open_attachment_widget = None
-        self.on_client_press_button = None
-        self.on_client_slash_command = None
-        self.on_client_widget_action = None
+    def on_app_install(self, f):
+        self.on_app_install_handler = f
+
+    def on_app_uninstall(self, f):
+        self.on_app_uninstall_handler = f
+
+    def on_chat_generate_url_preview(self, f):
+        self.on_chat_generate_url_preview_handler = f
+
+    def on_chat_receive_message(self, f):
+        self.on_chat_receive_message_handler = f
+
+    def on_client_flockml_action(self, f):
+        self.on_client_flockml_action_handler = f
+
+    def on_client_open_attachment_widget(self, f):
+        self.on_client_open_attachment_widget_handler = f
+
+    def on_client_message_action(self, f):
+        self.on_client_message_action_handler = f
+
+    def on_client_press_button(self, f):
+        self.on_client_press_button_handler = f
+
+    def on_client_slash_command(self, f):
+        self.on_client_slash_command_handler = f
+
+    def on_client_widget_action(self, f):
+        self.on_client_widget_action_handler = f
 
     @staticmethod
     def send_response(handler, event, start_response):
@@ -42,7 +69,6 @@ class EventHandlerClient(object):
             return {}
 
     def handle(self, environ, start_response):
-
         if 'event_token_payload' not in environ:
             try:
                 payload, event_json = TokenVerifierFilter.decode_and_verify_request(environ,
@@ -56,24 +82,25 @@ class EventHandlerClient(object):
             payload, event = environ['event_token_payload'], Event(environ['request_body'])
 
         if event.name == "app.install":
-            return EventHandlerClient.send_response(self.on_app_install, event, start_response)
+            return EventHandlerClient.send_response(self.on_app_install_handler, event, start_response)
         elif event.name == "app.uninstall":
-            return EventHandlerClient.send_response(self.on_app_uninstall, event, start_response)
+            return EventHandlerClient.send_response(self.on_app_uninstall_handler, event, start_response)
         elif event.name == "chat.generateUrlPreview":
-            return EventHandlerClient.send_response(self.on_chat_generate_url_preview, event, start_response)
+            return EventHandlerClient.send_response(self.on_chat_generate_url_preview_handler, event, start_response)
         elif event.name == "chat.receiveMessage":
-            return EventHandlerClient.send_response(self.on_chat_receive_message, event, start_response)
+            return EventHandlerClient.send_response(self.on_chat_receive_message_handler, event, start_response)
         elif event.name == "client.flockmlAction":
-            return EventHandlerClient.send_response(self.on_client_flockml_action, event, start_response)
+            return EventHandlerClient.send_response(self.on_client_flockml_action_handler, event, start_response)
         elif event.name == "client.messageAction":
-            return EventHandlerClient.send_response(self.on_client_message_action, event, start_response)
+            return EventHandlerClient.send_response(self.on_client_message_action_handler, event, start_response)
         elif event.name == "client.openAttachmentWidget":
-            return EventHandlerClient.send_response(self.on_client_open_attachment_widget, event, start_response)
+            return EventHandlerClient.send_response(self.on_client_open_attachment_widget_handler, event,
+                                                    start_response)
         elif event.name == "client.pressButton":
-            return EventHandlerClient.send_response(self.on_client_press_button, event, start_response)
+            return EventHandlerClient.send_response(self.on_client_press_button_handler, event, start_response)
         elif event.name == "client.slashCommand":
-            return EventHandlerClient.send_response(self.on_client_slash_command, event, start_response)
+            return EventHandlerClient.send_response(self.on_client_slash_command_handler, event, start_response)
         elif event.name == "client.widgetAction":
-            return EventHandlerClient.send_response(self.on_client_widget_action, event, start_response)
+            return EventHandlerClient.send_response(self.on_client_widget_action_handler, event, start_response)
         else:
             raise Exception("Unknown event encountered" + event.name)
