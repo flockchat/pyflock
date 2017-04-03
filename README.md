@@ -59,7 +59,6 @@ views = Views()
 views.widget = WidgetView(src="http://example.com",height=250)
 attachment = Attachment(title="Test widget", description="Replace src with your own page", views=views)
 # NOTE: attachments is an array of attachment
-widget_message = Message(
 res = chat.send_message(token=bot_token,to=user_guid, attachments = [attachment])
 print(res)
 ```
