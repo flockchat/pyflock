@@ -1,4 +1,3 @@
-import json
 import jwt
 from token_verifier_filter import TokenVerifierFilter
 from utils import send_200_response, send_403_response, send_404_response
@@ -6,7 +5,7 @@ from utils import send_200_response, send_403_response, send_404_response
 
 class Event(object):
     def __init__(self, dictionary):
-        self.__dict__ = json.loads(dictionary)
+        self.__dict__ = dictionary
 
 
 class EventHandlerClient(object):
@@ -71,16 +70,19 @@ class EventHandlerClient(object):
     def handle(self, environ, start_response):
         if 'event_token_payload' not in environ:
             try:
-                payload, event_json = TokenVerifierFilter.decode_and_verify_request(environ,
-                                                                                    self.app_secret,
-                                                                                    self.app_id)
-                event = Event(event_json)
+                TokenVerifierFilter.decode_and_verify_request(environ,
+                                                              self.app_secret,
+                                                              self.app_id)
             except jwt.DecodeError:
                 send_403_response(start_response)
                 return {}
-        else:
-            payload, event = environ['event_token_payload'], Event(environ['request_body'])
 
+        event_dictionary = environ.get(TokenVerifierFilter.EVENT_BODY)
+        if environ.get(TokenVerifierFilter.EVENT_TOKEN_PAYLOAD) is None or event_dictionary is None:
+            send_403_response(start_response)
+            return {}
+
+        event = Event(event_dictionary)
         if event.name == "app.install":
             return EventHandlerClient.send_response(self.on_app_install_handler, event, start_response)
         elif event.name == "app.uninstall":

@@ -1,31 +1,47 @@
 import jwt
 from utils import send_403_response
+import json
+from urlparse import parse_qs
 
 
 class TokenVerifierFilter:
-    def __init__(self, app, app_secret, appId):
+    EVENT_BODY = 'event_body'
+    EVENT_TOKEN_PAYLOAD = 'event_token_payload'
+
+    def __init__(self, app, app_secret, app_id):
         self.app = app
         self.app_secret = app_secret
-        self.appId = appId
+        self.app_id = app_id
 
     @staticmethod
-    def decode_and_verify_request(environ, app_secret, appId):
-        payload = jwt.decode(environ['HTTP_X_FLOCK_EVENT_TOKEN'], app_secret, algorithm='HS256')
-        request_body_size = int(environ.get('CONTENT_LENGTH', 0))
-        body = environ['wsgi.input'].read(request_body_size).decode("utf-8")
-        if payload['appId'] == appId:
-            environ['event_token_payload'] = payload
-            environ['request_body'] = body
-            return payload, body
-        else:
-            return None, None
+    def decode_and_verify_request(environ, app_secret, app_id):
+        payload, body = TokenVerifierFilter.get_token_and_body(environ, app_secret)
+        event = json.loads(body)
+        if payload is not None and body is not None and payload.get('appId') == app_id and event.get(
+                'userId') == payload.get('userId'):
+            environ[TokenVerifierFilter.EVENT_TOKEN_PAYLOAD] = payload
+            environ[TokenVerifierFilter.EVENT_BODY] = event
+
+    @staticmethod
+    def get_token_and_body(environ, app_secret):
+        payload, body = None, None
+        if environ['REQUEST_METHOD'] == 'GET':
+            query_params = parse_qs(environ['QUERY_STRING'])
+            token = query_params.get('flockEventToken')
+            body = query_params.get('flockEvent')
+        elif environ['REQUEST_METHOD'] == 'POST' and environ['CONTENT_TYPE'].startswith('application/json'):
+            token = environ.get('HTTP_X_FLOCK_EVENT_TOKEN')
+            request_body_size = int(environ.get('CONTENT_LENGTH', 0))
+            body = environ.get('wsgi.input').read(request_body_size).decode("utf-8")
+        payload = jwt.decode(token, app_secret, algorithm='HS256')
+        return payload, body
 
     def __call__(self, environ, start_response):
         try:
-            (event_token_payload, request_body) = TokenVerifierFilter.decode_and_verify_request(environ,
-                                                                                                self.app_secret,
-                                                                                                self.appId)
-            if event_token_payload is None or request_body is None:
+            TokenVerifierFilter.decode_and_verify_request(environ,
+                                                          self.app_secret,
+                                                          self.app_id)
+            if environ.get(TokenVerifierFilter.EVENT_TOKEN_PAYLOAD) is None:
                 send_403_response(start_response)
             else:
                 return self.app(environ, start_response)
