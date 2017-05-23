@@ -11,7 +11,7 @@ virtualenv venv -p python2
 Install flockos using:
 
 ```
-pip install git+git://github.com/flockchat/pyflock
+pip install flockos
 ```
 
 ## Usage
