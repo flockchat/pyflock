@@ -1,13 +1,13 @@
 from setuptools import setup
 
 setup(
-        name='pyflock',
-        version='0.1',
+        name='flockos',
+        version='1.0',
         description='Python client for flockOS',
         url='https://github.com/talk-to/pyflock',
         author='Balajiganapathi S',
         author_email='balajiganapathi@riva.co',
-        packages=['pyflock'],
+        packages=['flockos'],
         install_requires=[
             'PyJWT', 
             'requests'
