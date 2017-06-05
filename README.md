@@ -21,16 +21,16 @@ pip install flockos
 Import the various classes and methods needed
 
 ```python
-from flockos import chat, roster, users, groups
-from flockos import ActionConfig, Attachment, AttachmentButton, AttachmentDownload, Group, Image, HtmlView, ImageView, Message, SendAs,  
-Views, WidgetView, PublicProfile
+from flockos import chat, roster, users, channels
+from flockos import ActionConfig, Attachment, AttachmentButton, AttachmentDownload, Image, HtmlView, ImageView, Message, SendAs,  
+Views, WidgetView, PublicProfile, Channel, ChannelMember
 ```
-`token` can be an user token, For group and user apis, user token is required. For sending messages it can either be an user token or [bot token](https://docs.flock.co/display/flockos/Bots). `to` in message apis can be either [user or group ids](https://docs.flock.co/display/flockos/Identifiers).
+`token` can be an user token, For channel and user apis, user token is required. For sending messages it can either be an user token or [bot token](https://docs.flock.co/display/flockos/Bots). `to` in message apis can be either [user or channel ids](https://docs.flock.co/display/flockos/Identifiers).
 
 ### Index
 - [Methods](#methods)
     - [Sending Messages](#sending-messages)
-    - [Group APIs](#group-apis)
+    - [Channel APIs](#channel-apis)
     - [User APIs](#user-apis)
     - [Contact APIs](#contact-apis)
 - [Events](#events)
@@ -131,21 +131,21 @@ res = chat.fetch_messages(token,chat,uids)
 print(res)
 ```
 
-### Group APIs
+### Channel APIs
 
-#### Get group info
+#### Get channel info
 ```python
-print groups.get_info(token,group_id)
+print channels.get_info(token,channel_id)
 ```
 
-#### Get group members
+#### Get channel members
 ```python
-print groups.get_members(token,group_id)
+print channels.get_members(token,channel_id,show_public_profile)
 ```
 
-#### Get groups list of which user is member of 
+#### Get channels list of which user is member of 
 ```python
-print groups.list(token)
+print channels.list(token)
 ```
 
 ### User APIs
