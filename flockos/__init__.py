@@ -10,7 +10,7 @@ from .models.attachment import Attachment
 from .models.attachment_button import AttachmentButton
 from .models.attachment_download import AttachmentDownload
 from .models.error import Error
-from .models.group import Group
+from .models.channel import Channel
 from .models.html_view import HtmlView
 from .models.image import Image
 from .models.image_view import ImageView

@@ -10,7 +10,7 @@ from .attachment import Attachment
 from .attachment_button import AttachmentButton
 from .attachment_download import AttachmentDownload
 from .error import Error
-from .group import Group
+from .channel import Channel
 from .html_view import HtmlView
 from .image import Image
 from .image_view import ImageView

@@ -6,7 +6,7 @@ from pprint import pformat
 from ..utils import to_dict
 
 
-class Group(object):
+class Channel(object):
     def __init__(self, id=None, name=None, member_count=None, profile_image=None):
 
         self._id = id
