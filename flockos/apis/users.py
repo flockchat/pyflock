@@ -30,7 +30,7 @@ def get_public_profile(token, user_id, **kwargs):
     
     This method makes a synchronous HTTP request.
     :param str token:  (required)
-    :param str userId:  (required)
+    :param str user_id:  (required)
     :return: response dict
     """
 

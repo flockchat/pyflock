@@ -13,7 +13,7 @@ def get_info(token, channel_id, **kwargs):
 
     This method makes a synchronous HTTP request.
     :param str token:  (required)
-    :param str channelId:  (required)
+    :param str channel_id:  (required)
     :return: response dict
     """
 
@@ -25,14 +25,15 @@ def get_info(token, channel_id, **kwargs):
     response = call_api(resource_path, params=params)
     return response
 
-def list_members(token, channelId, **kwargs):
+
+def get_members(token, channel_id, show_public_profile, **kwargs):
     """
 
 
     This method makes a synchronous HTTP request.
     :param str token:  (required)
-    :param str channelId:  (required)
-    :param bool showPublicProfile: (required)
+    :param str channel_id:  (required)
+    :param bool show_public_profile:  (required)
     :return: response dict
     """
 
@@ -40,7 +41,7 @@ def list_members(token, channelId, **kwargs):
     for key, val in iteritems(params['kwargs']):
         params[key] = val
     del params['kwargs']
-    resource_path = '/channels.listMembers'.replace('{format}', 'json')
+    resource_path = '/channels.getMembers'.replace('{format}', 'json')
     response = call_api(resource_path, params=params)
     return response
 
