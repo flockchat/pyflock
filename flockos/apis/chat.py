@@ -8,8 +8,8 @@ from ..api_client import call_api
 
 def fetch_messages(token, chat, uids, **kwargs):
     """
-
-
+    
+    
     This method makes a synchronous HTTP request.
     :param str token:  (required)
     :param str chat:  (required)
@@ -28,8 +28,8 @@ def fetch_messages(token, chat, uids, **kwargs):
 
 def send_message(token, to, text, **kwargs):
     """
-
-
+    
+    
     This method makes a synchronous HTTP request.
     :param str token:  (required)
     :param str to:  (required)
