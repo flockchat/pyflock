@@ -140,7 +140,7 @@ print channels.get_info(token,channel_id)
 
 #### Get channel members
 ```python
-print channels.get_members(token,channel_id,show_public_profile)
+print channels.list_members(token,channel_id,show_public_profile)
 ```
 
 #### Get channels list of which user is member of 
