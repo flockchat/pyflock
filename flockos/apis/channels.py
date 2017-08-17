@@ -26,7 +26,7 @@ def get_info(token, channel_id, **kwargs):
     return response
 
 
-def get_members(token, channel_id, show_public_profile, **kwargs):
+def list_members(token, channel_id, show_public_profile, **kwargs):
     """
 
 
@@ -41,7 +41,7 @@ def get_members(token, channel_id, show_public_profile, **kwargs):
     for key, val in iteritems(params['kwargs']):
         params[key] = val
     del params['kwargs']
-    resource_path = '/channels.getMembers'.replace('{format}', 'json')
+    resource_path = '/channels.listMembers'.replace('{format}', 'json')
     response = call_api(resource_path, params=params)
     return response
 
