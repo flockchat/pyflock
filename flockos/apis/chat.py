@@ -35,12 +35,12 @@ def send_message(token, to, text, **kwargs):
     :param str to:  (required)
     :param str text:  (required)
     :param str on_behalf_of:
-    :param list[str] visible_to:
-    :param str flockml:
-    :param str notification:
-    :param list[str] mentions:
-    :param SendAs send_as:
-    :param list[Attachment] attachments:
+    :param list[str] visible_to: 
+    :param str flockml: 
+    :param str notification: 
+    :param list[str] mentions: 
+    :param SendAs send_as: 
+    :param list[Attachment] attachments: 
     :return: response dict
     """
 
