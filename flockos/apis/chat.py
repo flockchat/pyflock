@@ -34,6 +34,8 @@ def send_message(token, to, text, **kwargs):
     :param str token:  (required)
     :param str to:  (required)
     :param str text:  (required)
+    :param str on_behalf_of:
+    :param list[str] visible_to: 
     :param str flockml: 
     :param str notification: 
     :param list[str] mentions: 
@@ -49,4 +51,3 @@ def send_message(token, to, text, **kwargs):
     resource_path = '/chat.sendMessage'.replace('{format}', 'json')
     response = call_api(resource_path, params=params)
     return response
-
